@@ -13,15 +13,17 @@ import androidx.lifecycle.ViewModelProviders
 import com.andersbuck.choremate.R
 import com.andersbuck.choremate.data.User
 import com.andersbuck.choremate.data.UserDao
+import com.andersbuck.choremate.data.UserDataSource
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val TAG = "HomeFragment"
     private lateinit var homeViewModel: HomeViewModel
 
-    @Inject
-    lateinit var userDao: UserDao
+    @Inject lateinit var userDataSource: UserDataSource
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -40,12 +42,24 @@ class HomeFragment : Fragment() {
             insertUser()
         }
 
+        val fetchbutton: Button = root.findViewById(R.id.btn_fetch)
+        fetchbutton.setOnClickListener {
+            fetchUsers()
+        }
+
         return root
     }
 
     fun insertUser() {
-        val user = User("","User1")
-        userDao.insert(user)
-        Log.i(TAG,"Inserted user " + user);
+        val user = User("User1")
+        userDataSource.insert(user)
+        Log.i(TAG, "Inserted user $user")
+    }
+
+    fun fetchUsers() {
+        userDataSource.fetchUsers { users ->
+            Log.i(TAG, "First user: " + users[0])
+            Log.i(TAG, "Users inserted: " + users.size)
+        }
     }
 }
