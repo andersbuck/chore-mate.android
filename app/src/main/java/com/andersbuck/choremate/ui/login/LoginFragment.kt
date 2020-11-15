@@ -11,16 +11,15 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.andersbuck.choremate.R
 import com.andersbuck.choremate.data.User
-import com.andersbuck.choremate.data.UserDataSource
+import com.andersbuck.choremate.data.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     @Inject
-    lateinit var userDataSource: UserDataSource
+    lateinit var userRepository: UserRepository
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -34,7 +33,7 @@ class LoginFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         val spinner: Spinner = root.findViewById(R.id.spinner_users)
-        userDataSource.fetchUsers { users -> context?.let { adaptSpinnerUsers(it, spinner, users) } }
+        userRepository.fetchUsers { users -> context?.let { adaptSpinnerUsers(it, spinner, users) } }
 
         return root
     }

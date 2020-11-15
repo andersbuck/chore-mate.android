@@ -12,8 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.andersbuck.choremate.R
 import com.andersbuck.choremate.data.User
-import com.andersbuck.choremate.data.UserDao
-import com.andersbuck.choremate.data.UserDataSource
+import com.andersbuck.choremate.data.UserRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -24,7 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
     @Inject
-    lateinit var userDataSource: UserDataSource
+    lateinit var userRepository: UserRepository
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -53,12 +52,12 @@ class HomeFragment : Fragment() {
 
     fun insertUser() {
         val user = User("User1")
-        userDataSource.insert(user)
+        userRepository.insert(user)
         Log.i(TAG, "Inserted user $user")
     }
 
     fun fetchUsers() {
-        userDataSource.fetchUsers { users ->
+        userRepository.fetchUsers { users ->
             Log.i(TAG, "First user: " + users[0])
             Log.i(TAG, "Users inserted: " + users.size)
         }
