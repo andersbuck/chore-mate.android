@@ -23,7 +23,8 @@ class HomeFragment : Fragment() {
     private val TAG = "HomeFragment"
     private lateinit var homeViewModel: HomeViewModel
 
-    @Inject lateinit var userDataSource: UserDataSource
+    @Inject
+    lateinit var userDataSource: UserDataSource
 
     override fun onCreateView(
             inflater: LayoutInflater,
