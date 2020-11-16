@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.andersbuck.choremate.R
 import com.andersbuck.choremate.data.User
 import com.andersbuck.choremate.data.UserRepository
+import com.andersbuck.choremate.shared.Session
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -45,6 +46,12 @@ class HomeFragment : Fragment() {
         val fetchbutton: Button = root.findViewById(R.id.btn_fetch)
         fetchbutton.setOnClickListener {
             fetchUsers()
+        }
+
+        Session.getUsername()?.let {
+            Log.i(TAG, "User in session: " + it)
+        } ?: run {
+            Log.i(TAG, "Username not set!")
         }
 
         return root
